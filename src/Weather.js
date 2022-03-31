@@ -1,59 +1,104 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-export default function Search() {
-  let [city, setCity] = useState("");
-  let [display, setDisplay] = useState(false);
-  let [weather, setWeather] = useState("");
+export default function Weather() {
+  let weatherData = {
+    city: "London",
+    date: "Monday 18:00",
+    description: "light rain",
+    humidity: "90",
+    wind: "3",
+    temperature: "10",
+  };
 
-  function showWeather(response) {
-    console.log(response);
-    setDisplay(true);
-    setWeather({
-      temperature: response.data.main.temp,
-      descrpition: response.data.weather[0].description,
-      wind: response.data.wind.speed,
-      humidity: response.data.main.humidity,
-      icon: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
-    });
-  }
+  return (
+    <div className="page">
+      <div className="container">
+        <div className="weather">
+          <form>
+            <div className="row">
+              <div className="col-9">
+                <input
+                  className="form-control"
+                  type="text"
+                  placeholder="Enter a city..."
+                  aria-label="default input example"
+                />
+              </div>
+              <div className="col-3 p-0">
+                <input
+                  type="submit"
+                  className="btn btn-primary"
+                  value="Search"
+                />
+              </div>
+            </div>
+          </form>
+          <hr />
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    let apiKey = "49fcd8b8be4b347d531351f264a4f0d0";
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-    axios.get(apiUrl).then(showWeather);
-  }
-  function showCity(event) {
-    setCity(event.target.value);
-  }
-  let form = (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="search"
-        placeholder="Search for a city"
-        onChange={showCity}
-      />
-      <button type="submit">Search</button>
-    </form>
-  );
+          <div className="weather-information">
+            <div className="row">
+              <div className="col-6">
+                <h1>{weatherData.city}</h1>
+                <span className="location">
+                  <i className="fas fa-map-marker-alt"></i>
+                </span>
 
-  if (display) {
-    return (
-      <div>
-        {form}
-        <ul className="info">
-          <li>Temperature: {Math.round(weather.temperature)}℃</li>
-          <li>Description: {weather.descrpition}</li>
-          <li>Humidity: {weather.humidity}%</li>
-          <li>Wind: {Math.round(weather.wind)}kmh</li>
-          <li>
-            <img src={weather.icon} alt="weather-icon" />
-          </li>
-        </ul>
+                <ul>
+                  <li>{weatherData.date}</li>
+
+                  <span>{weatherData.description}</span>
+
+                  <li>
+                    Humidity:
+                    <strong className="humidity">{weatherData.humidity}</strong>
+                    <span className="measurement">%,</span> Wind:
+                    <strong className="wind">{weatherData.wind}</strong>
+                    <span className="measurement">mph</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="col-6">
+                <div className="temperature-container">
+                  <div>
+                    <img
+                      src="http://openweathermap.org/img/wn/01d@2x.png"
+                      alt="clouds"
+                      className="current-weather-icon"
+                      width="100"
+                      height="100"
+                    />
+                    <span className="temperature">
+                      {weatherData.temperature}
+                    </span>
+                    <span className="unit">
+                      <a href="/" className="unit-conversion">
+                        °C
+                      </a>{" "}
+                      |
+                      <a href="/" className="unit-conversion">
+                        °F
+                      </a>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="weather-forecast"></div>
+          <hr />
+          <footer>
+            Project coded by Salma Hussein and is
+            <a href="https://github.com/Salmahussein430/my-project-weather-app">
+              open-sourced on Github
+            </a>
+            and
+            <a href="https://hopeful-ramanujan-910a32.netlify.app/">
+              hosted on Netlify
+            </a>
+          </footer>
+        </div>
       </div>
-    );
-  } else {
-    return form;
-  }
+    </div>
+  );
 }
