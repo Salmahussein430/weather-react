@@ -13,10 +13,10 @@ export default function Weather(props) {
       temperature: Math.round(response.data.main.temp),
       city: response.data.name,
       ready: true,
-
       wind: Math.round(response.data.wind.speed),
       description: response.data.weather[0].description,
       humidity: Math.round(response.data.main.humidity),
+      icon: response.data.weather[0].icon,
     });
   }
   function search() {
